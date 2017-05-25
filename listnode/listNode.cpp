@@ -124,7 +124,8 @@ int main(){
 	cout << "before deal ,List is :" << endl;
 	sol1.printNodeListVal((*head).next);
 	//head = sol1.deleteDuplication(head);
-	head = sol1.bubbleSort(head);
+	//head = sol1.deleteOneNode(head , node7);
+	//head = sol1.bubbleSort(head);
 	cout << "after deal ,List is :" << endl;
 	sol1.printNodeListVal((*head).next);
 	return 0;
