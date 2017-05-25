@@ -81,26 +81,18 @@ public :
 		if((*pHead).next == NULL){
 			return pHead;
 		}
-		cout << "begin:"<<endl;
 		ListNode* currentNode = (*pHead).next;
-		int i = 0;
 		while(currentNode != NULL){
-			cout<< "i:"<< i<<endl;
-			cout<<"out:"<< (*currentNode).val<<endl;
-			cout<< "currentP:"<<currentNode<<endl;
 			ListNode* tmpNode = (*currentNode).next;
 			while(tmpNode != NULL){
-				cout<< "in:"<< (*tmpNode).val<<endl;
 				if((*currentNode).val > (*tmpNode).val){
 					swap(currentNode , tmpNode);
 				}
-				cout<< "swaped"<< endl;
 				tmpNode = (*tmpNode).next;
 			}
-			i++;
-			cout<<"i++"<< endl;
 			currentNode = (*currentNode).next;
 		}
+		return pHead;
 	}
 	void swap(ListNode* node1,ListNode* node2){
 		int tmpVal = (*node1).val;
@@ -111,12 +103,12 @@ public :
 };
 int main(){
 	ListNode* node1 = new ListNode(8);
-	ListNode* node2 = new ListNode(7);
-	ListNode* node3 = new ListNode(6);
-	ListNode* node4 = new ListNode(5);
-	ListNode* node5 = new ListNode(4);
-	ListNode* node6 = new ListNode(3);
-	ListNode* node7 = new ListNode(2);
+	ListNode* node2 = new ListNode(10);
+	ListNode* node3 = new ListNode(10);
+	ListNode* node4 = new ListNode(10);
+	ListNode* node5 = new ListNode(7);
+	ListNode* node6 = new ListNode(7);
+	ListNode* node7 = new ListNode(9);
 	ListNode* node8 = new ListNode(1);
 	(*node1).next = node2;
 	(*node2).next = node3;
@@ -129,8 +121,11 @@ int main(){
 	ListNode* head = new ListNode(-1);
 	(*head).next = node1;
 	Solution sol1 ;
+	cout << "before deal ,List is :" << endl;
+	sol1.printNodeListVal((*head).next);
 	//head = sol1.deleteDuplication(head);
 	head = sol1.bubbleSort(head);
+	cout << "after deal ,List is :" << endl;
 	sol1.printNodeListVal((*head).next);
 	return 0;
 }
