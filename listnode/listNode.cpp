@@ -13,50 +13,26 @@ class Solution {
 public :
 	Solution(){}
     ListNode* deleteDuplication(ListNode* pHead){
-		string x = "i:";
-		string y = "j:";
-		string icv = "icval";
-		string inv = "inval:";
-		string jcv = "jcval";
-		string jnv = "jnval:";
-		string delnext = "deleteNext";
-		string delcurr = "deleteCurr";
-        ListNode *currentNodeP = pHead;
-        ListNode *lastNodeP = NULL;
+        ListNode *currentNodeP = (*pHead).next;
+        ListNode *lastNodeP = pHead;
 		ListNode *nextNodeP = NULL;
-		int i = 0;
         while(currentNodeP != NULL ){
-			cout << x << i <<endl;
-			i++;
-			cout << icv << (*currentNodeP).val<<endl;
             nextNodeP = (*currentNodeP).next;
             bool dupFlag = false;
-			int j = 0;
             while(nextNodeP != NULL){
-				cout<< y << j <<endl;
-				j++;
-				cout << jcv << (*currentNodeP).val<<endl;
-				cout << jnv << (*nextNodeP).val<<endl;
                 if((*nextNodeP).val == (*currentNodeP).val){
                     dupFlag = true;
 					(*currentNodeP).next = (*nextNodeP).next;
-					cout<<delnext<<endl;
                     delete nextNodeP;
-					cout << "next"<<endl;
 					nextNodeP= (*currentNodeP).next;
                 }else{
 					nextNodeP= (*nextNodeP).next;
 				}
             }
             if(dupFlag == true){
-                if(currentNodeP == pHead){
-                    pHead = (*pHead).next;
-                    currentNodeP = (*currentNodeP).next;
-					cout<<delcurr<<endl;
-                    delete currentNodeP ;
-                }else{
-                    currentNodeP = (*currentNodeP).next;
-                }
+				(*lastNodeP).next = (*currentNodeP).next;
+				delete currentNodeP;
+                currentNodeP = (*currentNodeP).next;
             }else{
                 lastNodeP = currentNodeP;
                 currentNodeP = (*currentNodeP).next;
@@ -72,34 +48,89 @@ public :
 		}
 		int counter = 0;
 		while(tmpNodeP != NULL){
-			cout << cString<<"  "<< counter << endl;
 			cout << (*tmpNodeP).val<< endl;
 			counter++;
 			tmpNodeP = (*tmpNodeP).next;
 		}
 	}
+    ListNode* deleteOneNode(ListNode* pHead , ListNode* nodeToBeDel){
+		if(pHead == NULL || nodeToBeDel == NULL){
+			return NULL;
+		}
+		if((*pHead).next == NULL && pHead == nodeToBeDel){
+			delete pHead;
+			return NULL;
+		}
+		if((*nodeToBeDel).next != NULL){
+			ListNode *tmpNode = (*nodeToBeDel).next;
+			(*nodeToBeDel).val = (*tmpNode).val;
+			(*nodeToBeDel).next = (*tmpNode).next;
+			delete tmpNode;
+			return pHead;
+		}else{
+			ListNode* currentNode = pHead;
+			while((*currentNode).next != nodeToBeDel){
+				currentNode = (*currentNode).next;
+			}
+			delete nodeToBeDel;
+			(*currentNode).next = NULL;
+			return pHead;
+		}
+	}
+	ListNode* bubbleSort(ListNode* pHead){
+		if((*pHead).next == NULL){
+			return pHead;
+		}
+		cout << "begin:"<<endl;
+		ListNode* currentNode = (*pHead).next;
+		int i = 0;
+		while(currentNode != NULL){
+			cout<< "i:"<< i<<endl;
+			cout<<"out:"<< (*currentNode).val<<endl;
+			cout<< "currentP:"<<currentNode<<endl;
+			ListNode* tmpNode = (*currentNode).next;
+			while(tmpNode != NULL){
+				cout<< "in:"<< (*tmpNode).val<<endl;
+				if((*currentNode).val > (*tmpNode).val){
+					swap(currentNode , tmpNode);
+				}
+				cout<< "swaped"<< endl;
+				tmpNode = (*tmpNode).next;
+			}
+			i++;
+			cout<<"i++"<< endl;
+			currentNode = (*currentNode).next;
+		}
+	}
+	void swap(ListNode* node1,ListNode* node2){
+		int tmpVal = (*node1).val;
+		(*node1).val = (*node2).val;
+		(*node2).val = tmpVal;
+
+	}
 };
 int main(){
-	ListNode node1(1);
-	ListNode node2(2);
-	ListNode node3(3);
-	ListNode node4(3);
-	ListNode node5(3);
-	ListNode node6(3);
-	ListNode node7(4);
-	ListNode node8(5);
-	node1.next = &node2;
-	node2.next = &node3;
-	node3.next = &node4;
-	node4.next = &node5;
-	node5.next = &node6;
-	node6.next = &node7;
-	node7.next = &node8;
-	node8.next = NULL;
-	ListNode* head = &node1;
+	ListNode* node1 = new ListNode(8);
+	ListNode* node2 = new ListNode(7);
+	ListNode* node3 = new ListNode(6);
+	ListNode* node4 = new ListNode(5);
+	ListNode* node5 = new ListNode(4);
+	ListNode* node6 = new ListNode(3);
+	ListNode* node7 = new ListNode(2);
+	ListNode* node8 = new ListNode(1);
+	(*node1).next = node2;
+	(*node2).next = node3;
+	(*node3).next = node4;
+	(*node4).next = node5;
+	(*node5).next = node6;
+	(*node6).next = node7;
+	(*node7).next = node8;
+	(*node8).next = NULL;
+	ListNode* head = new ListNode(-1);
+	(*head).next = node1;
 	Solution sol1 ;
-	ListNode *tmpNode = sol1.deleteDuplication(head);
-	cout << "=======";
-	sol1.printNodeListVal(tmpNode);
+	//head = sol1.deleteDuplication(head);
+	head = sol1.bubbleSort(head);
+	sol1.printNodeListVal((*head).next);
 	return 0;
 }
