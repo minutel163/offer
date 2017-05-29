@@ -13,29 +13,29 @@ class Solution {
 public :
 	Solution(){}
     ListNode* deleteDuplication(ListNode* pHead){
-        ListNode *currentNodeP = (*pHead).next;
+        ListNode *currentNodeP = pHead->next;
         ListNode *lastNodeP = pHead;
 		ListNode *nextNodeP = NULL;
         while(currentNodeP != NULL ){
-            nextNodeP = (*currentNodeP).next;
+            nextNodeP = currentNodeP->next;
             bool dupFlag = false;
             while(nextNodeP != NULL){
-                if((*nextNodeP).val == (*currentNodeP).val){
+                if(nextNodeP->val == currentNodeP->val){
                     dupFlag = true;
-					(*currentNodeP).next = (*nextNodeP).next;
+					currentNodeP->next = nextNodeP->next;
                     delete nextNodeP;
-					nextNodeP= (*currentNodeP).next;
+					nextNodeP= currentNodeP->next;
                 }else{
-					nextNodeP= (*nextNodeP).next;
+					nextNodeP= nextNodeP->next;
 				}
             }
             if(dupFlag == true){
-				(*lastNodeP).next = (*currentNodeP).next;
+				lastNodeP->next = currentNodeP->next;
 				delete currentNodeP;
-                currentNodeP = (*currentNodeP).next;
+                currentNodeP = currentNodeP->next;
             }else{
                 lastNodeP = currentNodeP;
-                currentNodeP = (*currentNodeP).next;
+                currentNodeP = currentNodeP->next;
             }
         }
 		return pHead;
@@ -48,32 +48,32 @@ public :
 		}
 		int counter = 0;
 		while(tmpNodeP != NULL){
-			cout << (*tmpNodeP).val<< endl;
+			cout << tmpNodeP->val<< endl;
 			counter++;
-			tmpNodeP = (*tmpNodeP).next;
+			tmpNodeP = tmpNodeP->next;
 		}
 	}
     ListNode* deleteOneNode(ListNode* pHead , ListNode* nodeToBeDel){
 		if(pHead == NULL || nodeToBeDel == NULL){
 			return NULL;
 		}
-		if((*pHead).next == NULL && pHead == nodeToBeDel){
+		if(pHead->next == NULL && pHead == nodeToBeDel){
 			delete pHead;
 			return NULL;
 		}
-		if((*nodeToBeDel).next != NULL){
-			ListNode *tmpNode = (*nodeToBeDel).next;
-			(*nodeToBeDel).val = (*tmpNode).val;
-			(*nodeToBeDel).next = (*tmpNode).next;
+		if(nodeToBeDel->next != NULL){
+			ListNode *tmpNode = nodeToBeDel->next;
+			nodeToBeDel->val = tmpNode->val;
+			nodeToBeDel->next = tmpNode->next;
 			delete tmpNode;
 			return pHead;
 		}else{
 			ListNode* currentNode = pHead;
-			while((*currentNode).next != nodeToBeDel){
-				currentNode = (*currentNode).next;
+			while(currentNode->next != nodeToBeDel){
+				currentNode = currentNode->next;
 			}
 			delete nodeToBeDel;
-			(*currentNode).next = NULL;
+			currentNode->next = NULL;
 			return pHead;
 		}
 	}
@@ -81,23 +81,23 @@ public :
 		if((*pHead).next == NULL){
 			return pHead;
 		}
-		ListNode* currentNode = (*pHead).next;
+		ListNode* currentNode = pHead->next;
 		while(currentNode != NULL){
-			ListNode* tmpNode = (*currentNode).next;
+			ListNode* tmpNode = currentNode->next;
 			while(tmpNode != NULL){
-				if((*currentNode).val > (*tmpNode).val){
+				if(currentNode->val > tmpNode->val){
 					swap(currentNode , tmpNode);
 				}
-				tmpNode = (*tmpNode).next;
+				tmpNode = tmpNode->next;
 			}
-			currentNode = (*currentNode).next;
+			currentNode = currentNode->next;
 		}
 		return pHead;
 	}
 	void swap(ListNode* node1,ListNode* node2){
-		int tmpVal = (*node1).val;
-		(*node1).val = (*node2).val;
-		(*node2).val = tmpVal;
+		int tmpVal = node1->val;
+		node1->val = node2->val;
+		node2->val = tmpVal;
 
 	}
 };
@@ -110,23 +110,23 @@ int main(){
 	ListNode* node6 = new ListNode(7);
 	ListNode* node7 = new ListNode(9);
 	ListNode* node8 = new ListNode(1);
-	(*node1).next = node2;
-	(*node2).next = node3;
-	(*node3).next = node4;
-	(*node4).next = node5;
-	(*node5).next = node6;
-	(*node6).next = node7;
-	(*node7).next = node8;
-	(*node8).next = NULL;
+	node1->next = node2;
+	node2->next = node3;
+	node3->next = node4;
+	node4->next = node5;
+	node5->next = node6;
+	node6->next = node7;
+	node7->next = node8;
+	node8->next = NULL;
 	ListNode* head = new ListNode(-1);
-	(*head).next = node1;
+	head->next = node1;
 	Solution sol1 ;
 	cout << "before deal ,List is :" << endl;
-	sol1.printNodeListVal((*head).next);
-	//head = sol1.deleteDuplication(head);
+	sol1.printNodeListVal(head->next);
+	head = sol1.deleteDuplication(head);
 	//head = sol1.deleteOneNode(head , node7);
 	//head = sol1.bubbleSort(head);
 	cout << "after deal ,List is :" << endl;
-	sol1.printNodeListVal((*head).next);
+	sol1.printNodeListVal(head->next);
 	return 0;
 }
