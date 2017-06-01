@@ -11,10 +11,10 @@ public:
 		cout<<"start output"<<endl;
 		int size1 = sizeof(arr);
 		int size2 = sizeof(arr[0]);
-		cout<<"size1"<<size1<<endl;
-		cout<<"size2"<<size2<<endl;
+		cout<<"size1:"<<size1<<endl;
+		cout<<"size2:"<<size2<<endl;
     	int len = sizeof(arr)/sizeof(arr[0]);
-		cout<<"len"<<len<<endl;
+		cout<<"len:"<<len<<endl;
     	for(int i = 0;i<len;i++){
     		cout<< i<<" : "<<arr[i]<<endl;
     	}
