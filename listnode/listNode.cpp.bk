@@ -1,24 +1,17 @@
 #include <iostream>
 using namespace std;
 
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) :
+        val(x), next(NULL) {
+    }
+};
 
-class MyList {
+class Solution {
 public :
-	ListNode *head = NULL;
-	ListNode *tail = NULL;
-public :
-	MyList(){
-		head = new ListNode(0);
-		tail = new ListNode(0);
-		head->next = tail;
-
-	}
-	addNode(int newVal){
-		ListNode *newNode = new ListNode(newval);
-		tail->next = newNode;
-		tail = newNode;
-
-	}
+	Solution(){}
     ListNode* deleteDuplication(ListNode* pHead){
         ListNode *currentNodeP = pHead->next;
         ListNode *lastNodeP = pHead;
