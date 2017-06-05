@@ -1,27 +1,20 @@
 #include <iostream>
 using namespace std;
 
+struct ListNode {
+    int val;
+    struct ListNode *next;
+	struct ListNode *last;
+    ListNode(int x) :
+        val(x), next(NULL),last(NULL) {
+    }
+};
 
-class MyList {
+class Solution {
 public :
-	ListNode *head = NULL;
-	ListNode *tail = NULL;
-public :
-	MyList(){
-		head = new ListNode(0);
-		tail = new ListNode(0);
-		head->next = tail;
-
-	}
-	addNode(int newVal){
-		ListNode *newNode = new ListNode(newval);
-		tail->next = newNode;
-		tail = newNode;
-
-	}
+	Solution(){}
     ListNode* deleteDuplication(ListNode* pHead){
         ListNode *currentNodeP = pHead->next;
-        ListNode *lastNodeP = pHead;
 		ListNode *nextNodeP = NULL;
         while(currentNodeP != NULL ){
             nextNodeP = currentNodeP->next;
@@ -29,19 +22,26 @@ public :
             while(nextNodeP != NULL){
                 if(nextNodeP->val == currentNodeP->val){
                     dupFlag = true;
-					currentNodeP->next = nextNodeP->next;
-                    delete nextNodeP;
-					nextNodeP= currentNodeP->next;
+					nextNodeP->last->next = nextNodeP->next;
+					if(nextNodeP->next != NULL){
+						nextNodeP->next->last = nextNodeP->last;
+					}
+					ListNode *tmpNodeP = nextNodeP;
+					nextNodeP = tmpNodeP->next;
+                    delete tmpNodeP;
                 }else{
 					nextNodeP= nextNodeP->next;
 				}
             }
             if(dupFlag == true){
-				lastNodeP->next = currentNodeP->next;
-				delete currentNodeP;
-                currentNodeP = currentNodeP->next;
+				currentNodeP->last->next = currentNodeP->next;
+				if(currentNodeP->next != NULL){
+					currentNodeP->next->last = currentNodeP->last;
+				}
+				ListNode *tmpNodeP = currentNodeP;
+                currentNodeP = tmpNodeP->next;
+				delete tmpNodeP;
             }else{
-                lastNodeP = currentNodeP;
                 currentNodeP = currentNodeP->next;
             }
         }
@@ -72,6 +72,7 @@ public :
 			ListNode *tmpNode = nodeToBeDel->next;
 			nodeToBeDel->val = tmpNode->val;
 			nodeToBeDel->next = tmpNode->next;
+			tmpNode->next->last = nodeToBeDel;
 			delete tmpNode;
 			return pHead;
 		}else{
@@ -109,31 +110,40 @@ public :
 	}
 };
 int main(){
-	ListNode* node1 = new ListNode(8);
-	ListNode* node2 = new ListNode(10);
-	ListNode* node3 = new ListNode(10);
+	ListNode* node1 = new ListNode(1);
+	ListNode* node2 = new ListNode(0);
+	ListNode* node3 = new ListNode(0);
 	ListNode* node4 = new ListNode(10);
-	ListNode* node5 = new ListNode(7);
+	ListNode* node5 = new ListNode(6);
 	ListNode* node6 = new ListNode(7);
 	ListNode* node7 = new ListNode(9);
 	ListNode* node8 = new ListNode(1);
 	node1->next = node2;
+	node2->last = node1;
 	node2->next = node3;
+	node3->last = node2;
 	node3->next = node4;
+	node4->last = node3;
 	node4->next = node5;
+	node5->last = node4;
 	node5->next = node6;
+	node6->last = node5;
 	node6->next = node7;
+	node7->last = node6;
 	node7->next = node8;
+	node8->last = node7;
 	node8->next = NULL;
 	ListNode* head = new ListNode(-1);
 	head->next = node1;
+	node1->last = head;
 	Solution sol1 ;
 	cout << "before deal ,List is :" << endl;
 	sol1.printNodeListVal(head->next);
-	head = sol1.deleteDuplication(head);
-	//head = sol1.deleteOneNode(head , node7);
+	//head = sol1.deleteDuplication(head);
+	head = sol1.deleteOneNode(head , node7);
 	//head = sol1.bubbleSort(head);
 	cout << "after deal ,List is :" << endl;
 	sol1.printNodeListVal(head->next);
+	cout<< "next->next->next->last"<<(*head->next->next->last).val<<endl;
 	return 0;
 }
